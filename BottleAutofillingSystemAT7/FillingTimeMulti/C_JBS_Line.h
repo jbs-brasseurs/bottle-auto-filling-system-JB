@@ -10,7 +10,17 @@
 #ifndef __C_JBS_LINE_H__
 #define __C_JBS_LINE_H__
 
-
+enum EN_LedColor
+{
+    E_LedColor_None,
+    E_LedColor_Green,
+    E_LedColor_GreenBlinking,
+    E_LedColor_Orange,
+    E_LedColor_OrangeBlinking,
+    E_LedColor_Red,
+    E_LedColor_RedBlinking
+};
+    
 class C_JBS_Line
 {
 //variables
@@ -28,13 +38,13 @@ bool mb_BtCalLast;
 bool mb_BtCalClick; 
 
 bool mb_Ct;
-bool mb_CtLast;
+//bool mb_CtLast;
 
-bool mb_BottleEmpty;
+bool mb_BottleTaken;
 
-uint32_t mu32_AI_Color;
-uint32_t mu32_SI_Color;
-uint8_t mu8_SI_Blink;
+EN_LedColor men_AI_Color;
+EN_LedColor men_SI_Color;
+//uint8_t mu8_SI_Blink;
 
 //functions
 public:
@@ -43,9 +53,22 @@ public:
 
     void Init(uint8_t u8_ValvePin, uint8_t u8_BtCalPin, uint8_t u8_CtPin);
     void Reset();
+    
     void UpdateInput();
-
+    
+    void Manual();
+    void SemiAuto();
+    void Auto() {}
+        
+    void SetValve(const bool b_Valve);
+    
+    void WriteOutput();
+    
+    bool GetBtCal() const {return mb_BtCal;}
+    //bool GetV() const {return mb_V;}
+    
 protected:
+
 private:
 	C_JBS_Line( const C_JBS_Line &c );
 	C_JBS_Line& operator=( const C_JBS_Line &c );

@@ -249,6 +249,12 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="C_JBS_FillingSystem.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="C_JBS_FillingSystem.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="C_JBS_LedNeoPixel.cpp">
       <SubType>compile</SubType>
     </Compile>
