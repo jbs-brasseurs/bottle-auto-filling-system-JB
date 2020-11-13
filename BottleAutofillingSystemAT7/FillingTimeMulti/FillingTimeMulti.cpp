@@ -130,49 +130,54 @@ void loop()
 
 void TaskMenuHandling(void *pvParameters)  // This is a task.
 {
-    g_Lcd.PrintInit();
+    //g_Lcd.PrintInit();
     g_FillingSystem.Init(U8_PIN_BT_PEDALE, AU8_PIN_V, AU8_PIN_BT_CAL, AU8_PIN_CT, &g_Leds);
-    uint8_t Last_Mode{0xff};    
+    uint8_t Last_Mode{0xffU};    
 
-    for (;;)
+	pinMode(22, INPUT_PULLUP);
+	uint8_t cpt{0U};
+	for (;;)
     {
         g_FillingSystem.UpdateInput();
         
         if (Last_Mode!=gu8_Mode)
         {
-            switch(gu8_Mode)
+            if (gu8_Mode == 0U)
             {
-                case 0:
                 g_Lcd.ClearPrint(g_Lcd.MAC8_MODE_CHOOSE);
-                
-                break;
-
-                default:
-                ;
             }
+				
+			else if (gu8_Mode ==1U)
+			{
+				g_Lcd.ClearPrint("Calibration");
+			}
            Last_Mode = gu8_Mode;
         }
-        if (gu8_Mode == 0u)
+        if (gu8_Mode == 0U)
         {
-            if(g_FillingSystem.GetBtCalPressed(1u))
+			g_Lcd.ClearPrint(String(cpt).c_str());
+			
+            if(g_FillingSystem.GetBtCalPressed(1U)==0)
             {
-                gu8_Mode = 1;
+				g_Lcd.ClearPrint("Mode 1");
+                gu8_Mode = 1U;
             }
-            else if(g_FillingSystem.GetBtCalPressed(2u))
+            else if(g_FillingSystem.GetBtCalPressed(2U)==0)
             {
-                gu8_Mode = 2;
+                gu8_Mode = 2U;
             }
         
-            else if(g_FillingSystem.GetBtCalPressed(3u))
+            else if(g_FillingSystem.GetBtCalPressed(3U)==0)
             {
-                gu8_Mode = 3;
+                gu8_Mode = 3U;
             }
-            else if(g_FillingSystem.GetBtCalPressed(4u))
+            else if(g_FillingSystem.GetBtCalPressed(4U)==0)
             {
-                gu8_Mode = 4;
+                gu8_Mode = 4U;
             }
         }
-        vTaskDelay( 100u / portTICK_PERIOD_MS ); // wait for one second
+		cpt++;
+        vTaskDelay( 100U / portTICK_PERIOD_MS ); // wait for one second
     }
 }
 
